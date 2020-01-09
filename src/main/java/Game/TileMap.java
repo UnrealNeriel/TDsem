@@ -1,8 +1,10 @@
 package Game;
 
+import javafx.geometry.Point2D;
 import javafx.scene.image.*;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 public class TileMap extends ImageView {
     private final static int TILE = GameManager.TILE;
@@ -95,5 +97,41 @@ public class TileMap extends ImageView {
                         {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
                         {1 , 3 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
                         {0 , 0 , 0 , 4 , 1 , 3 , 0 , 4 , 3 , 0 },};
+    }
+
+    public ArrayList<Point2D> getPath() {
+        ArrayList<Point2D> pathXY = new ArrayList<Point2D>();
+        boolean scanSwitch = false;
+        int previousY = 0;
+        int previousX = 0;
+
+        for(int y = 0; !scanSwitch; y++) {
+            if(map[y][0] > 0){
+                pathXY.add(new Point2D(0 , y));
+                scanSwitch = true;
+                previousY = y;
+            }
+        }
+
+        for (int x = 0; scanSwitch; x++) {
+            //adds the final path coordinate before exiting loop
+            if (x == TILE_LENGTH_X) {
+                pathXY.add(new Point2D(x - 1 , previousY));
+                break;
+            }
+            if (map[previousY][x] > 2 && map[previousY][x] < 7 && x != previousX) {
+                pathXY.add(new Point2D(x , previousY));
+                scanSwitch = false;
+                previousX = x;
+            }
+            for (int y = 0; !scanSwitch; y++) {
+                if (map[y][x] > 2 & map[y][x] <7 & y != previousY) {
+                    pathXY.add(new Point2D(x , y));
+                    scanSwitch = true;
+                    previousY = y;
+                }
+            }
+        }
+        return pathXY;
     }
 }
