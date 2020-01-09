@@ -1,0 +1,11 @@
+image: kaiwinter/docker-java8-maven
+
+sestaveni:
+  script:
+    - "mvn install -B"
+  only:
+    - master
+
+  artifacts:
+    paths:
+      - target/TD-sem-0.0.1-SNAPSHOT.jar
