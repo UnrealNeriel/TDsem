@@ -33,15 +33,6 @@ public class GameManager {
         Monster.setPath(gameMap.getPath());
         startGameLoop();
         return gamePane;
-
-    }
-
-    public void buyTower(double xCords , double yCords) {
-        int xTile = (int) (xCords / TILE), yTile = (int) (yCords / TILE);
-        if(gameMap.nodeOpen(xTile, yTile)) {
-            game.addTower(new Tower(xTile, yTile));
-            gameMap.setMapNode(xTile, yTile, 7);
-        }
     }
 
     private void createMonster(int health) {

@@ -7,12 +7,10 @@ public class GameState {
 
     private static GameState playerGame;
     private int state;
-    private ArrayList<Tower> playerTowers;
     private ArrayList<Monster> monstersAlive;
 
     public GameState() {
         state = IS_RUNNING;
-        playerTowers = new ArrayList<Tower>();
         monstersAlive = new ArrayList<Monster>();
     }
 
@@ -23,8 +21,4 @@ public class GameState {
     public ArrayList<Monster> getMonstersAlive() {
         return monstersAlive;
     }
-    public ArrayList<Tower> getPlayerTowers(){
-        return playerTowers;
-    }
-    public void addTower(Tower tower){playerTowers.add(tower);}
 }
