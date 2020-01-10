@@ -90,7 +90,7 @@ public class TileMap extends ImageView {
                         {0 , 0 , 0 , 0 , 0 , 5 , 1 , 6 , 0 , 0 },
                         {0 , 5 , 1 , 6 , 0 , 2 , 0 , 2 , 5 , 1 },
                         {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
-                        {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
+                        {0 , 2 , 7 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
                         {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
                         {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
                         {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
@@ -98,6 +98,15 @@ public class TileMap extends ImageView {
                         {1 , 3 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
                         {0 , 0 , 0 , 4 , 1 , 3 , 0 , 4 , 3 , 0 },};
     }
+    public void setMapNode(int xCord , int yCord , int updatedValue){
+        map[yCord][xCord] = updatedValue;
+        this.repaint();
+    }
+
+    public boolean nodeOpen(int xCord , int yCord) {
+        return map[yCord][xCord] == 0;
+    }
+
 
     public ArrayList<Point2D> getPath() {
         ArrayList<Point2D> pathXY = new ArrayList<Point2D>();
