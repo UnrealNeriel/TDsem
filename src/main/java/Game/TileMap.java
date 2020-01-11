@@ -72,6 +72,18 @@ public class TileMap extends ImageView {
                     case 7:
                         tilereader.getPixels(0 , TILE , TILE , TILE , picFormat , buffer , 0 , 256);
                         break;
+                    case 8:
+                        tilereader.getPixels(0 , 2 * TILE , TILE , TILE , picFormat , buffer , 0 , 256);
+                        break;
+                    case 9:
+                        tilereader.getPixels(TILE , 2 * TILE , TILE , TILE , picFormat , buffer , 0 , 256);
+                        break;
+                    case 10:
+                        tilereader.getPixels(2 * TILE , 2 * TILE , TILE , TILE , picFormat , buffer , 0 , 256);
+                        break;
+                    case 11:
+                        tilereader.getPixels(3 * TILE , 2 * TILE , TILE , TILE , picFormat , buffer , 0 , 256);
+                        break;
                 }
                 if(y == TILE_LENGTH_Y - 1 & OFFSET_Y_FLAG){
                     tileWriter.setPixels(x * TILE , y * TILE, TILE , OFFSET_Y , picFormat , buffer , 0 , 256);
@@ -105,6 +117,10 @@ public class TileMap extends ImageView {
 
     public boolean nodeOpen(int xCord , int yCord) {
         return map[yCord][xCord] == 0;
+    }
+
+    public int getNodeValue(int xCord, int yCord) {
+        return map[yCord][xCord];
     }
 
     public ArrayList<Point2D> getPath() {

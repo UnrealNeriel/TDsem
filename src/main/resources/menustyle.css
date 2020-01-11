@@ -1,0 +1,20 @@
+.root {
+    -fx-background-image: url("menuBackground.jpg");
+}
+
+.button {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#000099, #006600);
+    -fx-border-color: yellow;
+    -fx-border-width: 1;
+}
+.button:hover {
+    -fx-background-color: linear-gradient(#660099, #006666);
+}
+
+#tdlabel {
+    -fx-font-size: 50px;
+    -fx-font-family: "Arial Black";
+    -fx-text-fill: linear-gradient(#ffff00, #00ff00);
+}

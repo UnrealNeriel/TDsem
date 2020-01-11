@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -9,18 +10,25 @@
             onAction = "#buyTower"
             layoutX="10"
             layoutY="10"
-            prefHeight="64"
-            prefWidth="64"
+            prefHeight="40"
+            prefWidth="40"
             />
     <Button fx:id="removeTowerButton"
             onAction = "#removeTower"
-            layoutX="84"
+            layoutX="60"
             layoutY="10"
-            prefHeight="64"
-            prefWidth="64"
+            prefHeight="40"
+            prefWidth="40"
+    />
+    <Button fx:id="upgradeTowerButton"
+            onAction = "#upgradeTower"
+            layoutX="110"
+            layoutY="10"
+            prefHeight="40"
+            prefWidth="40"
     />
     <Label fx:id = "timeLabel"
            layoutX="170"
-           layoutY="15"
+           layoutY="0"
     />
 </Pane>

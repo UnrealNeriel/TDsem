@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<Pane fx:controller="Game.TownController" xmlns:fx="http://javafx.com/fxml" stylesheets="townstyle.css">
+
+    <ImageView layoutX="10" layoutY="10">
+        <Image url="gold.png"/>
+    </ImageView>
+    <Label fx:id = "gold" layoutX="74" layoutY="10" minHeight="64" minWidth="64" />
+
+    <ImageView layoutX="250" layoutY="10">
+        <Image url="iron.png"/>
+    </ImageView>
+    <Label fx:id = "iron" layoutX="314" layoutY="10" minHeight="64" minWidth="64"/>
+
+    <ImageView layoutX="10" layoutY="84">
+        <Image url="wood.png"/>
+    </ImageView>
+    <Label fx:id = "wood" layoutX="74" layoutY="84" minHeight="64" minWidth="64"/>
+
+    <ImageView layoutX="250" layoutY="84">
+        <Image url="stone.png"/>
+    </ImageView>
+    <Label fx:id = "stone" layoutX="314" layoutY="84" minHeight="64" minWidth="64"/>
+
+    <ImageView layoutX="10" layoutY="158">
+        <Image url="towers.png"/>
+    </ImageView>
+    <Label fx:id = "towers" layoutX="74" layoutY="158" minHeight="64" minWidth="64"/>
+
+    <ImageView layoutX="250" layoutY="158">
+        <Image url="lives.png"/>
+    </ImageView>
+    <Label fx:id = "lives" layoutX="314" layoutY="158" minHeight="64" minWidth="64"/>
+
+    <ImageView layoutX="10" layoutY="232">
+        <Image url="level.png"/>
+    </ImageView>
+    <Label fx:id = "level" layoutX="74" layoutY="232" minHeight="64" minWidth="64"/>
+</Pane>

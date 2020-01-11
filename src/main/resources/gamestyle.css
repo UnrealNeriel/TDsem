@@ -5,7 +5,7 @@
     -fx-background-image: url('/buyTower.png');
 }
 #buyTowerButton:hover {
-    -fx-background-image: url('buyTowerHover.png');
+    -fx-background-image: url('/buyTowerHover.png');
 }
 
 #removeTowerButton {
@@ -15,6 +15,13 @@
     -fx-background-image: url('/removeTowerHover.png');
 }
 
+#upgradeTowerButton {
+    -fx-background-image: url('/upgradeTower.png');
+}
+#upgradeTowerButton:hover {
+    -fx-background-image: url('/upgradeTowerHover.png');
+}
+
 #timeLabel {
-    -fx-font-size: 30;
+    -fx-font-size: 50;
 }

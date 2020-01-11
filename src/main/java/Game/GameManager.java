@@ -5,8 +5,6 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.PathTransition;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -18,6 +16,8 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class GameManager {
     public final static int TILE = 64;
@@ -28,8 +28,10 @@ public class GameManager {
     private GameController gameController;
     private StackPane gamePane;
     private boolean gameContinue = true;
+    private TownManager townManager;
 
-    public StackPane initialize() throws IOException {
+    public StackPane initialize(TownManager TM) throws IOException {
+        this.townManager = TM;
         FXMLLoader loader = new FXMLLoader(GameManager.class.getResource("/gameui.fxml"));
         game = new GameState();
         GameState.init(game);
@@ -50,8 +52,17 @@ public class GameManager {
         gameController.setGameManager(this);
 
         Monster.setPath(gameMap.getPath());
+        Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(updateResources(), 0, 1, TimeUnit.SECONDS);
         startGameLoop();
         return gamePane;
+    }
+
+    private Runnable updateResources() {
+        return () -> {
+            game.setIron(game.getIron() + townManager.getHutLevel());
+            game.setWood(game.getWood() + townManager.getMillLevel());
+            game.setStone(game.getStone() + townManager.getQuarryLevel());
+        };
     }
 
     public StackPane getGamePane() {
@@ -59,11 +70,19 @@ public class GameManager {
     }
 
     public void buyTower(double xCords , double yCords) {
+        if (game.getTowerCount() == townManager.getTowerLimit()) {
+            System.out.println("Tower limit reached");
+            return;
+        }
+
         int xTile = (int)(xCords / TILE), yTile = (int)(yCords / TILE);
 
-        if(gameMap.nodeOpen(xTile, yTile)) {
+        if(gameMap.nodeOpen(xTile, yTile) && game.getGold() > 9) {
             game.addTower(new Tower(xTile, yTile));
+            game.setGold(game.getGold() - 10);
             gameMap.setMapNode(xTile, yTile, 7);
+        } else {
+            System.out.println("Not enough gold or no more space");
         }
     }
 
@@ -76,6 +95,63 @@ public class GameManager {
                     game.removeTower(tower);
                     gameMap.setMapNode(xTile, yTile, 0);
                     break;
+                }
+            }
+        }
+    }
+
+    public void upgradeTower(double xCords, double yCords) {
+        int xTile = (int) (xCords / TILE), yTile = (int) (yCords / TILE);
+        int tmp = gameMap.getNodeValue(xTile, yTile);
+        for (Tower tower : game.getPlayerTowers()) {
+            if (tower.getNodeX() == xTile && tower.getNodeY() == yTile) {
+                switch (tmp) {
+                    case 7:
+                        if (game.getGold() > 24 && game.getIron() > 24 && game.getStone() > 24 && game.getWood() > 24) {
+                            game.setGold(game.getGold() - 25);
+                            game.setIron(game.getIron() - 25);
+                            game.setWood(game.getWood() - 25);
+                            game.setStone(game.getStone() - 25);
+                            tower.setAttackDamage(tower.getAttackDamage() * 2);
+                            tower.setAttackRange(tower.getAttackRange() + 40);
+                            gameMap.setMapNode(xTile, yTile, tmp + 1);
+                        } else {System.out.println("Not enough resources");}
+                        break;
+                    case 8:
+                        if (game.getGold() > 99 && game.getIron() > 99 && game.getStone() > 99 && game.getWood() > 99) {
+                            game.setGold(game.getGold() - 100);
+                            game.setIron(game.getIron() - 100);
+                            game.setWood(game.getWood() - 100);
+                            game.setStone(game.getStone() - 100);
+                            tower.setAttackDamage(tower.getAttackDamage() * 2);
+                            tower.setAttackRange(tower.getAttackRange() + 40);
+                            gameMap.setMapNode(xTile, yTile, tmp + 1);
+                        } else {System.out.println("Not enough resources");}
+                        break;
+                    case 9:
+                        if (game.getGold() > 499 && game.getIron() > 499 && game.getStone() > 499 && game.getWood() > 499) {
+                            game.setGold(game.getGold() - 500);
+                            game.setIron(game.getIron() - 500);
+                            game.setWood(game.getWood() - 500);
+                            game.setStone(game.getStone() - 500);
+                            tower.setAttackDamage(tower.getAttackDamage() * 2);
+                            tower.setAttackRange(tower.getAttackRange() + 40);
+                            gameMap.setMapNode(xTile, yTile, tmp + 1);
+                        } else {System.out.println("Not enough resources");}
+                        break;
+                    case 10:
+                        if (game.getGold() > 2499 && game.getIron() > 2499 && game.getStone() > 2499 && game.getWood() > 2499) {
+                            game.setGold(game.getGold() - 2500);
+                            game.setIron(game.getIron() - 2500);
+                            game.setWood(game.getWood() - 2500);
+                            game.setStone(game.getStone() - 2500);
+                            tower.setAttackDamage(tower.getAttackDamage() * 2);
+                            tower.setAttackRange(tower.getAttackRange() + 40);
+                            gameMap.setMapNode(xTile, yTile, tmp + 1);
+                        } else {System.out.println("Not enough resources");}
+                        break;
+                    default:
+                         System.out.println("Nothing to upgrade here");
                 }
             }
         }
@@ -107,18 +183,15 @@ public class GameManager {
                 projectilePath.getElements().add(new LineTo(projectile.getEndX() , projectile.getEndY()));
                 animation = new PathTransition(Duration.millis(300) , projectilePath , projectile);
 
-                animation.setOnFinished(new EventHandler<ActionEvent>() {
-                    //@Override
-                    public void handle(ActionEvent actionEvent) {
-                        PathTransition finishedAnimation = (PathTransition) actionEvent.getSource();
-                        Projectile finishedProjectile = (Projectile) finishedAnimation.getNode();
+                animation.setOnFinished(actionEvent -> {
+                    PathTransition finishedAnimation = (PathTransition) actionEvent.getSource();
+                    Projectile finishedProjectile = (Projectile) finishedAnimation.getNode();
 
-                        finishedProjectile.setVisible(false);
-                        monsterLayer.getChildren().remove(finishedProjectile);
+                    finishedProjectile.setVisible(false);
+                    monsterLayer.getChildren().remove(finishedProjectile);
 
-                        if(finishedProjectile.getTarget().isDead()){
-                            removeMonster(finishedProjectile.getTarget());
-                        }
+                    if(finishedProjectile.getTarget().isDead()){
+                        removeMonster(finishedProjectile.getTarget());
                     }
                 });
                 monsterLayer.getChildren().add(projectile);
@@ -130,9 +203,23 @@ public class GameManager {
 
     private void updateLabels(int timer) {
         gameController.updateTime(Integer.toString(timer));
+
+        townManager.getTownController().updateResources(
+                Integer.toString(game.getGold()),
+                Integer.toString(game.getIron()),
+                Integer.toString(game.getWood()),
+                Integer.toString(game.getStone()),
+                Integer.toString(game.getTowerCount()),
+                Integer.toString(game.getLives()),
+                Integer.toString(game.getLevel()));
     }
 
     private  void removeMonster(Monster monster) {
+        if (monster.isPathFinished()) {
+            game.setLives((game.getLives()) - 1);
+        } else {
+            game.setGold((game.getGold()) + monster.getReward() * game.getLevel());
+        }
         monster.setVisible(false);
         game.getMonstersAlive().remove(monster);
     }
@@ -148,9 +235,10 @@ public class GameManager {
                 if (timestamp / 1000000000 != secondUpdate.get()) {
                     timer--;
                     if(timer > 19) {
-                        createMonster(200);
+                        createMonster(120 * game.getLevel());
                     }
                     else if(timer <= 0){
+                        game.setLevel(game.getLevel() + 1);
                         timer = 30;
                     }
                 }
@@ -170,7 +258,5 @@ public class GameManager {
         }
     }
 
-    public GameManager getGameManager() {
-        return this;
-    }
+
 }

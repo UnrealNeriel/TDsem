@@ -1,0 +1,24 @@
+.root {
+}
+
+#gold {
+    -fx-font-size: 40;
+}
+#iron {
+    -fx-font-size: 40;
+}
+#wood {
+    -fx-font-size: 40;
+}
+#stone {
+    -fx-font-size: 40;
+}
+#towers {
+    -fx-font-size: 40;
+}
+#lives {
+    -fx-font-size: 40;
+}
+#level {
+    -fx-font-size: 40;
+}

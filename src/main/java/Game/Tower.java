@@ -43,23 +43,37 @@ public class Tower {
         return (int) coord.getY();
     }
 
+    public int getAttackDamage() {
+        return attackDamage;
+    }
+
+    public void setAttackDamage(int attackDamage) {
+        this.attackDamage = attackDamage;
+    }
+
+    public int getAttackRange() {
+        return attackRange;
+    }
+
+    public void setAttackRange(int attackRange) {
+        this.attackRange = attackRange;
+    }
+
     public ArrayList<Projectile> getProjectileList() {
         return projectileList;
     }
 
     private Runnable shootingThread() {
-        return new Runnable() {
-            public void run() {
-                int towerMinXRange = getX() - attackRange, towerMaxXRange = getX() + attackRange,
-                    towerMinYRange = getY() - attackRange, towerMaxYRange = getY() + attackRange;
+        return () -> {
+            int towerMinXRange = getX() - attackRange, towerMaxXRange = getX() + attackRange,
+                towerMinYRange = getY() - attackRange, towerMaxYRange = getY() + attackRange;
 
-                for (Monster monster : GameState.getGame().getMonstersAlive()) {
-                    if (monster.getX() > towerMinXRange && monster.getX() < towerMaxXRange &&
-                            monster.getY() > towerMinYRange && monster.getY() < towerMaxYRange) {
-                        createProjectile(monster);
-                        monster.takeDamage(attackDamage);
-                        break;
-                    }
+            for (Monster monster : GameState.getGame().getMonstersAlive()) {
+                if (monster.getX() > towerMinXRange && monster.getX() < towerMaxXRange &&
+                        monster.getY() > towerMinYRange && monster.getY() < towerMaxYRange) {
+                    createProjectile(monster);
+                    monster.takeDamage(attackDamage);
+                    break;
                 }
             }
         };
