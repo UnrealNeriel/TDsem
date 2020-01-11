@@ -12,14 +12,17 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class Start extends Application {
+
     public final static int RESOLUTION_X = 640;
     public final static int RESOLUTION_Y = 640;
 
     public static void main (String args[]) {
         launch(args);
     }
-public void start(Stage stage) {
+public void start(Stage stage) throws IOException {
         ImageView mill = new ImageView();
         Image image4 = new Image("sawmill.png");
         mill.setImage(image4);
@@ -95,8 +98,8 @@ public void start(Stage stage) {
 
 
 
+        final GameManager gameManager = new GameManager();
 
-        GameManager gameManager = new GameManager();
 
         StackPane TD = gameManager.initialize();
 
@@ -113,13 +116,6 @@ public void start(Stage stage) {
         city.getChildren().add(slevarna);
         city.getChildren().add(farma);
 
-
-
-
-
-
-
-
     root.getItems().addAll(TD, city);
 
 
@@ -129,5 +125,6 @@ public void start(Stage stage) {
         stage.setResizable(false);
         stage.setScene(home);
         stage.show();
+        root.lookup(".split-pane-divider").setMouseTransparent(true);
     }
 }

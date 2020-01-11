@@ -11,6 +11,7 @@ public class Projectile extends Circle {
 
     Projectile(Monster target , int towerX , int towerY){
         super(towerX , towerY , 16);
+        this.setFill(new ImagePattern(new Image("/projectile.png")));
         this.target = target;
         this.startX = towerX;
         this.startY = towerY;
@@ -20,11 +21,19 @@ public class Projectile extends Circle {
         return target;
     }
 
+    public int getEndX(){
+        return target.getX();
+    }
+
+    public int getEndY(){
+        return target.getY();
+    }
+
     public int getStartX(){
         return startX;
     }
+
     public int getStartY(){
         return startY;
     }
 }
-

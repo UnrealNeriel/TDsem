@@ -1,6 +1,8 @@
 package Game;
 
 import javafx.geometry.Point2D;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class Monster extends Circle {
 
     public Monster(int healthPoints) {
         super(path.get(0).getX() * TILE + TILE / 2, path.get(0).getY() * TILE + TILE / 2, 16);
+        this.setFill(new ImagePattern(new Image("/bomb.png")));
         pathFinished = false;
         moveX = true;
         nodeDirection = 1;

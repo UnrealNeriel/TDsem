@@ -1,0 +1,20 @@
+.root {
+}
+
+#buyTowerButton {
+    -fx-background-image: url('/buyTower.png');
+}
+#buyTowerButton:hover {
+    -fx-background-image: url('buyTowerHover.png');
+}
+
+#removeTowerButton {
+    -fx-background-image: url('/removeTower.png');
+}
+#removeTowerButton:hover {
+    -fx-background-image: url('/removeTowerHover.png');
+}
+
+#timeLabel {
+    -fx-font-size: 30;
+}

@@ -1,0 +1,26 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:controller="Game.GameController" xmlns:fx="http://javafx.com/fxml" stylesheets="gamestyle.css">
+<padding><Insets top="10" right="50" bottom="50" left="25"/></padding>
+
+    <Button fx:id="buyTowerButton"
+            onAction = "#buyTower"
+            layoutX="10"
+            layoutY="10"
+            prefHeight="64"
+            prefWidth="64"
+            />
+    <Button fx:id="removeTowerButton"
+            onAction = "#removeTower"
+            layoutX="84"
+            layoutY="10"
+            prefHeight="64"
+            prefWidth="64"
+    />
+    <Label fx:id = "timeLabel"
+           layoutX="170"
+           layoutY="15"
+    />
+</Pane>

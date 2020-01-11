@@ -2,7 +2,6 @@ package Game;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.*;
-
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
@@ -87,17 +86,18 @@ public class TileMap extends ImageView {
 
     private int[][] generateMapArray() {
         return new int[][] {
-                        {0 , 0 , 0 , 0 , 0 , 5 , 1 , 6 , 0 , 0 },
-                        {0 , 5 , 1 , 6 , 0 , 2 , 0 , 2 , 5 , 1 },
-                        {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
-                        {0 , 2 , 7 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
-                        {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
-                        {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
-                        {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
-                        {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
-                        {1 , 3 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
-                        {0 , 0 , 0 , 4 , 1 , 3 , 0 , 4 , 3 , 0 },};
+                {0 , 0 , 0 , 0 , 0 , 5 , 1 , 6 , 0 , 0 },
+                {0 , 5 , 1 , 6 , 0 , 2 , 0 , 2 , 5 , 1 },
+                {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
+                {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
+                {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
+                {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
+                {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
+                {0 , 2 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
+                {1 , 3 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
+                {0 , 0 , 0 , 4 , 1 , 3 , 0 , 4 , 3 , 0 },};
     }
+
     public void setMapNode(int xCord , int yCord , int updatedValue){
         map[yCord][xCord] = updatedValue;
         this.repaint();
@@ -106,7 +106,6 @@ public class TileMap extends ImageView {
     public boolean nodeOpen(int xCord , int yCord) {
         return map[yCord][xCord] == 0;
     }
-
 
     public ArrayList<Point2D> getPath() {
         ArrayList<Point2D> pathXY = new ArrayList<Point2D>();
@@ -123,7 +122,6 @@ public class TileMap extends ImageView {
         }
 
         for (int x = 0; scanSwitch; x++) {
-            //adds the final path coordinate before exiting loop
             if (x == TILE_LENGTH_X) {
                 pathXY.add(new Point2D(x - 1 , previousY));
                 break;
