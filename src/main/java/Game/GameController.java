@@ -4,7 +4,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-
+/**
+ * Class GameController - třída upravuje fxml soubor
+ * CLass rozšiřuje intuitivnost aplikace přidáním klikacích obrázků
+ */
 public class GameController {
     @FXML
     private Label timeLabel;

@@ -151,7 +151,7 @@ public class GameManager {
                         } else {System.out.println("Not enough resources");}
                         break;
                     default:
-                         System.out.println("Nothing to upgrade here");
+                        System.out.println("Nothing to upgrade here");
                 }
             }
         }

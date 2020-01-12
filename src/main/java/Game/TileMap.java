@@ -5,6 +5,11 @@ import javafx.scene.image.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
+/**
+ * Třídá TileMap - popisuje hrací pole hry
+ * TileMap slouží pro průchod monster po mapě a umístění towerek mimo chodící plochu
+ *
+ */
 public class TileMap extends ImageView {
     private final static int TILE = GameManager.TILE;
 
@@ -18,6 +23,11 @@ public class TileMap extends ImageView {
     private  boolean OFFSET_X_FLAG;
     private  boolean OFFSET_Y_FLAG;
 
+    /**
+     * Konstruktor Herního pole, nastaví chodící pole podle arraylistu
+     * @param mapWidth
+     * @param mapHeight
+     */
     public TileMap(int mapWidth , int mapHeight){
         RESOLUTION_WIDTH  = mapWidth;
         RESOLUTION_HEIGHT  = mapHeight;
@@ -34,7 +44,9 @@ public class TileMap extends ImageView {
         map = generateMapArray();
         repaint();
     }
-
+    /**
+     * Metoda "barví" mapu podle možností uvedených v metodě
+     */
     public void repaint() {
         Image tileset = new Image("/sheet.png");
         PixelReader tilereader = tileset.getPixelReader();
@@ -95,7 +107,10 @@ public class TileMap extends ImageView {
         }
         this.setImage(paintedMap);
     }
-
+    /**
+     * Metoda vytváří mapu podle možností nahoře
+     * @return
+     */
     private int[][] generateMapArray() {
         return new int[][] {
                 {0 , 0 , 0 , 0 , 0 , 5 , 1 , 6 , 0 , 0 },
@@ -109,20 +124,39 @@ public class TileMap extends ImageView {
                 {1 , 3 , 0 , 2 , 0 , 2 , 0 , 2 , 2 , 0 },
                 {0 , 0 , 0 , 4 , 1 , 3 , 0 , 4 , 3 , 0 },};
     }
-
+    /**
+     * Metoda umístí možnost na mapu
+     * @param xCord
+     * @param yCord
+     * @param updatedValue
+     */
     public void setMapNode(int xCord , int yCord , int updatedValue){
         map[yCord][xCord] = updatedValue;
         this.repaint();
     }
-
+    /**
+     * Metoda kontroluje zda na poli již není tower nebo tudy nepokračuje cesta monster
+     * @param xCord
+     * @param yCord
+     * @return
+     */
     public boolean nodeOpen(int xCord , int yCord) {
         return map[yCord][xCord] == 0;
     }
 
+    /**
+     * Metoda vrací hodnotu pole
+     * @param xCord
+     * @param yCord
+     * @return
+     */
     public int getNodeValue(int xCord, int yCord) {
         return map[yCord][xCord];
     }
-
+    /**
+     * Metoda vrací arraylist s nastavenou plochou hry po které budou chodit monstra
+     * @return
+     */
     public ArrayList<Point2D> getPath() {
         ArrayList<Point2D> pathXY = new ArrayList<Point2D>();
         boolean scanSwitch = false;

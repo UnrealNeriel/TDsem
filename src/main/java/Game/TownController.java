@@ -3,6 +3,10 @@ package Game;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
+/**
+ * Class TownController určuje controller města který doplňuje hratelnost hry,
+ * pomocí intuitivních labelů
+ */
 public class TownController {
     @FXML
     public Label gold;
@@ -21,10 +25,24 @@ public class TownController {
 
     private TownManager townManager;
 
+    /**
+     * Metoda nastavuje TownManager
+     * @param townManager
+     */
     public void setTownManager(TownManager townManager) {
         this.townManager = townManager;
     }
 
+    /**
+     * Metoda aktualizuje zdroje města
+     * @param gold
+     * @param iron
+     * @param wood
+     * @param stone
+     * @param towers
+     * @param lives
+     * @param level
+     */
     public void updateResources(String gold, String iron, String wood, String stone, String towers, String lives, String level) {
         this.gold.setText(gold);
         this.iron.setText(iron);

@@ -9,8 +9,15 @@ import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
+/**
+ * MainMenuController vytváří prostředí menu aplikace
+ */
 public class MainMenuController {
     private Scene home;
+
+    /**
+     * Metoda spouští novou hru aplikace a zakládá scénu s hrací plochou
+     */
     public void startNewGame(){
         try{
             GameManager gameManager = new GameManager();
@@ -26,6 +33,10 @@ public class MainMenuController {
         }
         Start.stage.setScene(home);
     }
+
+    /**
+     * Metoda zavírá aplikaci
+     */
     public void exitGame(){
         System.exit(1);
     }

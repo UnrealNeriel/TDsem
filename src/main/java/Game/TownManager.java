@@ -9,7 +9,9 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
-
+/**
+ * Class TownManager zakládá prostředí města a popisuje jeho budovy a vylepšení
+ */
 public class TownManager {
     private TownController townController;
     private int towerLimit = 5;
@@ -17,6 +19,11 @@ public class TownManager {
     private int quarryLevel = 1;
     private int hutLevel = 1;
 
+    /**
+     * Metoda vytváří prostředí města
+     * @return
+     * @throws IOException
+     */
     public Pane initialize() throws IOException {
         FXMLLoader loader = new FXMLLoader(TownManager.class.getResource("/townui.fxml"));
         Node townUI = loader.load(TownManager.class.getResource("/townui.fxml").openStream());
@@ -119,38 +126,70 @@ public class TownManager {
         return city;
     }
 
+    /**
+     * Metoda vrací townController
+     * @return
+     */
     public TownController getTownController() {
         return townController;
     }
 
+    /**
+     * Metoda vrací maximální počet postavených tower
+     * @return
+     */
     public int getTowerLimit() {
         return towerLimit;
     }
 
+    /**
+     * Metoda nastavuje maximální počet tower
+     * @param towerLimit
+     */
     public void setTowerLimit(int towerLimit) {
         this.towerLimit = towerLimit;
     }
 
+    /**
+     * Metoda vrací úroveň pily
+     * @return
+     */
     public int getMillLevel() {
         return millLevel;
     }
 
+    /**
+     * Metoda nastavuje úroveň pily
+     * @param millLevel
+     */
     public void setMillLevel(int millLevel) {
         this.millLevel = millLevel;
     }
-
+    /**
+     * Metoda vrací úroveň lomu
+     * @return
+     */
     public int getQuarryLevel() {
         return quarryLevel;
     }
-
+    /**
+     * Metoda nastavuje úroveň lomu
+     * @param quarryLevel
+     */
     public void setQuarryLevel(int quarryLevel) {
         this.quarryLevel = quarryLevel;
     }
-
+    /**
+     * Metoda vrací úroveň slévárny
+     * @return
+     */
     public int getHutLevel() {
         return hutLevel;
     }
-
+    /**
+     * Metoda nastavuje úroveň slévárny
+     * @param hutLevel
+     */
     public void setHutLevel(int hutLevel) {
         this.hutLevel = hutLevel;
     }
