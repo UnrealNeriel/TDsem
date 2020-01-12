@@ -18,7 +18,10 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
+/**
+ * Class GameManager
+ * Tato Class inicializuje prvky ze kterých se hra skládá
+ */
 public class GameManager {
     public final static int TILE = 64;
 
@@ -29,7 +32,11 @@ public class GameManager {
     private StackPane gamePane;
     private boolean gameContinue = true;
     private TownManager townManager;
-
+    /**
+     * Vytváří jednotlivé prvky hry
+     * @return
+     * @throws IOException
+     */
     public StackPane initialize(TownManager TM) throws IOException {
         this.townManager = TM;
         FXMLLoader loader = new FXMLLoader(GameManager.class.getResource("/gameui.fxml"));
@@ -57,6 +64,10 @@ public class GameManager {
         return gamePane;
     }
 
+    /**
+     * Metoda aktualizuje suroviny
+     * @return
+     */
     private Runnable updateResources() {
         return () -> {
             game.setIron(game.getIron() + townManager.getHutLevel());
@@ -64,11 +75,18 @@ public class GameManager {
             game.setStone(game.getStone() + townManager.getQuarryLevel());
         };
     }
-
+    /**
+     * Metoda vrací prostor se hrou
+     * @return
+     */
     public StackPane getGamePane() {
         return gamePane;
     }
-
+    /**
+     * Metoda umožňuje koupit tower
+     * @param xCords
+     * @param yCords
+     */
     public void buyTower(double xCords , double yCords) {
         if (game.getTowerCount() == townManager.getTowerLimit()) {
             System.out.println("Tower limit reached");
@@ -85,7 +103,11 @@ public class GameManager {
             System.out.println("Not enough gold or no more space");
         }
     }
-
+    /**
+     * Metoda odstraňuje tower
+     * @param xCords
+     * @param yCords
+     */
     public void removeTower(double xCords , double yCords) {
         int xTile = (int)(xCords / TILE), yTile = (int)(yCords / TILE);
 
@@ -100,6 +122,11 @@ public class GameManager {
         }
     }
 
+    /**
+     * Metoda vylepšuje tower o jednu úroveň
+     * @param xCords
+     * @param yCords
+     */
     public void upgradeTower(double xCords, double yCords) {
         int xTile = (int) (xCords / TILE), yTile = (int) (yCords / TILE);
         int tmp = gameMap.getNodeValue(xTile, yTile);
@@ -156,12 +183,17 @@ public class GameManager {
             }
         }
     }
-
+    /**
+     * Metoda vytváří Monster
+     * @param health
+     */
     private void createMonster(int health) {
         game.getMonstersAlive().add(new Monster(health));
         monsterLayer.getChildren().add(game.getMonstersAlive().get(game.getMonstersAlive().size() - 1).getMonster());
     }
-
+    /**
+     * Metoda aktualizuje pozice monster
+     */
     private void updateLocations() {
         for (Iterator<Monster> monsters = game.getMonstersAlive().iterator(); monsters.hasNext(); ) {
             Monster monster = monsters.next();
@@ -173,7 +205,9 @@ public class GameManager {
             }
         }
     }
-
+    /**
+     * Metoda animuje projektily tower
+     */
     private void createProjectiles() {
         Path projectilePath;
         PathTransition animation;
@@ -200,7 +234,10 @@ public class GameManager {
             tower.getProjectileList().clear();
         }
     }
-
+    /**
+     * Metoda aktualizuje čas kola
+     * @param timer
+     */
     private void updateLabels(int timer) {
         gameController.updateTime(Integer.toString(timer));
 
@@ -213,7 +250,10 @@ public class GameManager {
                 Integer.toString(game.getLives()),
                 Integer.toString(game.getLevel()));
     }
-
+    /**
+     * Metoda odstraňuje monstra z hracího pole
+     * @param monster
+     */
     private  void removeMonster(Monster monster) {
         if (monster.isPathFinished()) {
             game.setLives((game.getLives()) - 1);
@@ -223,7 +263,9 @@ public class GameManager {
         monster.setVisible(false);
         game.getMonstersAlive().remove(monster);
     }
-
+    /**
+     * Metoda zahajuje Loop na posílání monster
+     */
     private void startGameLoop() {
         final LongProperty secondUpdate = new SimpleLongProperty(0);
         final LongProperty fpstimer = new SimpleLongProperty(0);
