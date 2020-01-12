@@ -5,7 +5,7 @@
     <name>TDsem</name>
     <artifactId>TD-sem</artifactId>
     <groupId>cz.vse.java</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <description>An example Java 8 project using Maven and JUnit 5.x</description>
 

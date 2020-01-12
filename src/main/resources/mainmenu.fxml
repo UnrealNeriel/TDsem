@@ -13,8 +13,7 @@
     <VBox GridPane.columnIndex="1" GridPane.rowIndex="5" spacing="10" alignment="CENTER">
         <padding><Insets right="100"/></padding>
         <Button fx:id = "newGameButton" onAction="#startNewGame" text = "New Game" prefWidth="120" prefHeight="35"/>
-        <Button fx:id = "loadGameButton" text = "Load Game" prefWidth="120" prefHeight="35"/>
-        <Button fx:id = "optionsButton" text = "Options" prefWidth="120" prefHeight="35"/>
+        <Button fx:id = "loadGameButton" onAction="#loadGame" text = "Load Game" prefWidth="120" prefHeight="35"/>
         <Button fx:id = "exitButton" onAction="#exitGame" text = "Exit" prefWidth="120" prefHeight="35"/>
     </VBox>
 </GridPane>

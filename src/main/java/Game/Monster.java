@@ -34,6 +34,15 @@ public class Monster extends Circle {
         this.healthPoints = healthPoints;
         reward = 2;
     }
+    public Monster(int healthPoint, int x, int y) {
+        super(x, y, 16);
+        this.setFill(new ImagePattern(new Image("/bomb.png")));
+        pathFinished = false;
+        moveX = true;
+        nodeDirection = 1;
+        this.healthPoints = healthPoints;
+        reward = 2;
+    }
     /**
      * Metoda vrací souřadnici X polohy monstra
      * @return
@@ -94,6 +103,9 @@ public class Monster extends Circle {
         if (healthPoints < 1) {
             isDead = true;
         }
+    }
+    public int getHealthPoints() {
+        return this.healthPoints;
     }
     /**
      * Metoda aktualizuje umístění monster na mapě

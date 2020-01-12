@@ -14,7 +14,11 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -22,16 +26,88 @@ import java.util.concurrent.TimeUnit;
 public class GameManager {
     public final static int TILE = 64;
 
-    private TileMap gameMap;
+    private static TileMap gameMap;
     private Group monsterLayer;
-    private GameState game;
+    private static GameState game;
     private GameController gameController;
     private StackPane gamePane;
     private boolean gameContinue = true;
-    private TownManager townManager;
+    private static TownManager townManager;
 
     public StackPane initialize(TownManager TM) throws IOException {
-        this.townManager = TM;
+        init(TM);
+        Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(updateResources(), 0, 1, TimeUnit.SECONDS);
+        startGameLoop();
+        return gamePane;
+    }
+
+    public StackPane initialize(TownManager TM, String file) throws IOException {
+        init(TM);
+        String[] tokens = file.split("\\s+");
+        if (!tokens[0].equals("eI>c;Vr!s-='`UFk<H!J")) {
+            System.exit(666);
+        }
+        int index = 1;
+        int tmp;
+        for (int y = 0; y < 10; y++) {
+            for (int x = 0; x < 10; x++, index++) {
+                tmp = parseInt(tokens[index]);
+                if (tmp == 7) {
+                    game.addTower(new Tower(x, y));
+                    gameMap.setMapNode(x, y, 7);
+                } else if (tmp == 8) {
+                    game.addTower(new Tower(x, y));
+                    for (Tower tower : game.getPlayerTowers()) {
+                        if (tower.getNodeX() == x && tower.getNodeY() == y) {
+                            tower.setAttackDamage(tower.getAttackDamage() * 2);
+                            tower.setAttackRange(tower.getAttackRange() + 40);
+                        }
+                    }
+                    gameMap.setMapNode(x, y, 8);
+                } else if (tmp == 9) {
+                    game.addTower(new Tower(x, y));
+                    for (Tower tower : game.getPlayerTowers()) {
+                        if (tower.getNodeX() == x && tower.getNodeY() == y) {
+                            tower.setAttackDamage(tower.getAttackDamage() * 4);
+                            tower.setAttackRange(tower.getAttackRange() + 80);
+                        }
+                    }
+                    gameMap.setMapNode(x, y, 9);
+                } else if (tmp == 10) {
+                    game.addTower(new Tower(x, y));
+                    for (Tower tower : game.getPlayerTowers()) {
+                        if (tower.getNodeX() == x && tower.getNodeY() == y) {
+                            tower.setAttackDamage(tower.getAttackDamage() * 8);
+                            tower.setAttackRange(tower.getAttackRange() + 120);
+                        }
+                    }
+                    gameMap.setMapNode(x, y, 10);
+                } else if (tmp == 11) {
+                    game.addTower(new Tower(x, y));
+                    for (Tower tower : game.getPlayerTowers()) {
+                        if (tower.getNodeX() == x && tower.getNodeY() == y) {
+                            tower.setAttackDamage(tower.getAttackDamage() * 16);
+                            tower.setAttackRange(tower.getAttackRange() + 160);
+                        }
+                    }
+                    gameMap.setMapNode(x, y, 11);
+                }
+            }
+        }
+        tmp = parseInt(tokens[index]);
+        index++;
+        for (int i = 0; i < tmp; i++, index+=3) {
+            game.getMonstersAlive().add(new Monster(parseInt(tokens[index + 2]), parseInt(tokens[index]), parseInt(tokens[index + 1])));
+            monsterLayer.getChildren().add(game.getMonstersAlive().get(game.getMonstersAlive().size() - 1).getMonster());
+        }
+
+        Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(updateResources(), 0, 1, TimeUnit.SECONDS);
+        startGameLoop();
+        return gamePane;
+    }
+
+    private void init(TownManager TM) throws IOException {
+        townManager = TM;
         FXMLLoader loader = new FXMLLoader(GameManager.class.getResource("/gameui.fxml"));
         game = new GameState();
         GameState.init(game);
@@ -52,9 +128,6 @@ public class GameManager {
         gameController.setGameManager(this);
 
         Monster.setPath(gameMap.getPath());
-        Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(updateResources(), 0, 1, TimeUnit.SECONDS);
-        startGameLoop();
-        return gamePane;
     }
 
     private Runnable updateResources() {
@@ -258,5 +331,69 @@ public class GameManager {
         }
     }
 
+    public static void saveGame() {
+        SimpleDateFormat dateFormat;
+        Date date;
+        String frmtdDate;
+        BufferedWriter out;
 
+        System.out.println("Game saved");
+
+        dateFormat = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
+        date = new Date();
+        frmtdDate = "TDsem " + dateFormat.format(date);
+        frmtdDate += ".txt";
+        int tmp;
+
+        try {
+            FileWriter fstream = new FileWriter("C:/Users/HP GAMING 17/Desktop/" + frmtdDate, true);
+            out = new BufferedWriter(fstream);
+            out.write("eI>c;Vr!s-='`UFk<H!J");
+            out.newLine();
+            for (int x = 0; x < 10; x++) {
+                for (int y = 0; y < 10; y++) {
+                    out.write(GameManager.gameMap.getNodeValue(y, x) + " ");
+                }
+                out.newLine();
+            }
+
+            tmp = GameManager.game.getMonstersAlive().size();
+            out.write(tmp + "");
+            out.newLine();
+
+            for (Monster monster : GameManager.game.getMonstersAlive()) {
+                out.write(monster.getX() + " ");
+                out.write(monster.getY() + " ");
+                out.write(monster.getHealthPoints() + "");
+                out.newLine();
+            }
+            out.newLine();
+
+            out.write(GameManager.game.getGold() + " ");
+            out.write(GameManager.game.getIron() + " ");
+            out.write(GameManager.game.getWood() + " ");
+            out.write(GameManager.game.getStone() + " ");
+            out.write(GameManager.game.getLives() + " ");
+            out.write(GameManager.game.getLevel() + " ");
+            out.write(GameManager.townManager.getTowerLimit() + " ");
+            out.write(GameManager.townManager.getHutLevel() + " ");
+            out.write(GameManager.townManager.getMillLevel() + " ");
+            out.write(GameManager.townManager.getQuarryLevel() + "");
+            out.newLine();
+
+            out.write("wO$Lf]VZ}J82C~?<7P*,");
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int parseInt(String number) {
+        try {
+            return Integer.parseInt(number);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return -2;
+        }
+    }
 }
